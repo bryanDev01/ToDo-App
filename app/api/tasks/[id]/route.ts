@@ -1,8 +1,8 @@
 import { prisma } from "@/libs/prisma";
-import { Params } from "next/dist/server/request/params";
+import { pageProps } from "@/types/types";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: Params }) {
+export async function GET(request: Request, { params }: pageProps) {
   const { id } = await params;
   const task = await prisma.task.findUnique({
     where: {
@@ -13,10 +13,12 @@ export async function GET(request: Request, { params }: { params: Params }) {
   return NextResponse.json(task);
 }
 
-export async function PUT(request: Request, { params }: { params: Params }) {
+export async function PUT(request: Request, { params }: pageProps) {
   const { id } = await params;
   const data = await request.json();
 
+  console.log(data)
+  
   const updatedTask = await prisma.task.update({
     where: {
       id: Number(id),
@@ -27,7 +29,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   return NextResponse.json(updatedTask);
 }
 
-export async function DELETE(request: Request, { params }: { params: Params }) {
+export async function DELETE(request: Request, { params }: pageProps) {
   const { id } = await params;
   const deletedTask = await prisma.task.delete({
     where: {

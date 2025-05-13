@@ -1,6 +1,5 @@
-export interface Tasks {
-    id: number;
-    title: string;
-    description: string | null;
-    createdAt: Date;
+type paramsType = Promise<{ id: string }>;
+
+export interface pageProps {
+    params: paramsType
 }
