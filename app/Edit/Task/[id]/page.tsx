@@ -1,3 +1,3 @@
-import NewTask from "@/app/newTask/page";
+import NewTask from "@/app/NewTask/page";
 export const dynamic = 'force-dynamic'; 
 export default NewTask;
