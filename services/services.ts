@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from "@/lib/prisma";
 import { Task } from "@prisma/client";
 
 export async function loadTasks(term?: string | undefined) {
