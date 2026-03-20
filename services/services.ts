@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
 import { Task } from "@prisma/client";
+import prisma from '@/lib/prisma';
 
 export async function loadTasks(term?: string | undefined) {
   const tasks: Task[] = await prisma.task.findMany();
