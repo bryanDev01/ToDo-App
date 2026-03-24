@@ -1,9 +1,3 @@
-// app/Edit/Task/[id]/page.tsx
-import { pageProps } from '@/types/types';
-import dynamic from 'next/dynamic';
-
-const NewTasks = dynamic(() => import('@/app/NewTask/page'));
-
-export default function EditTaskPage({ params }: pageProps) {
-  return <NewTasks params={params}/>;
-}
+import NewTask from "@/app/NewTask/page";
+export const dynamic = 'force-dynamic'; 
+export default NewTask;
