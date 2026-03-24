@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { pageProps } from "@/types/types";
 import { NextResponse } from "next/server";
 
@@ -16,8 +16,6 @@ export async function GET(request: Request, { params }: pageProps) {
 export async function PUT(request: Request, { params }: pageProps) {
   const { id } = await params;
   const data = await request.json();
-
-  console.log(data)
   
   const updatedTask = await prisma.task.update({
     where: {

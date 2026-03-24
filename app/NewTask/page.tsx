@@ -3,16 +3,18 @@ export const dynamic = "force-dynamic";
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Task, Priority } from "@prisma/client";
-import { pageProps } from "@/types/types";
+import { Priority } from "@prisma/client";
+import { Task, pageProps } from "@/types/types";
 import { Save, Trash2 } from "lucide-react";
 
 function NewTasks({ params }: pageProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [isSent, setIsSent] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [priority, setPriority] = useState<Priority>(Priority.Low);
+  const [task, setTask] = useState<Task>({
+    title: "",
+    description: "",
+    priority: Priority.Low
+  })
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const router = useRouter();
 
@@ -23,14 +25,16 @@ function NewTasks({ params }: pageProps) {
         setIsEditing(true);
         const res = await fetch(`/api/tasks/${paramId}`);
         const data: Task = await res.json();
-        setTitle(data.title);
-        setDescription(data.description || "");
-        setPriority(data.priority);
+        setTask({
+          title: data.title,
+          description: data.description,
+          priority: data.priority
+        })
       }
       setLoading(false);
     };
 
-    if (!title && !description) getDefaultData();
+    if (!task?.title && !task?.description) getDefaultData();
     else setLoading(false);
   }, [params]);
 
@@ -49,9 +53,9 @@ function NewTasks({ params }: pageProps) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title,
-            description,
-            priority,
+            title: task?.title,
+            description: task?.description,
+            priority: task?.priority,
           }),
         });
       } else {
@@ -61,9 +65,9 @@ function NewTasks({ params }: pageProps) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title,
-            description,
-            priority,
+            title: task?.title,
+            description: task?.description,
+            priority: task?.priority,
           }),
         });
       }
@@ -107,8 +111,8 @@ function NewTasks({ params }: pageProps) {
                 className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-100 placeholder-gray-400"
                 placeholder="Enter task title"
                 disabled={loading ? true : false}
-                value={loading ? "Loading....." : title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={loading ? "Loading....." : task?.title}
+                onChange={(e) => setTask({...task, title: e.target.value})}
               />
             </div>
 
@@ -125,8 +129,8 @@ function NewTasks({ params }: pageProps) {
                 className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-100 placeholder-gray-400"
                 placeholder="Enter task description"
                 disabled={loading ? true : false}
-                value={loading ? "Loading....." : description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={loading ? "Loading....." : task?.description}
+                onChange={(e) => setTask({...task, description: e.target.value})}
               />
             </div>
 
@@ -140,8 +144,8 @@ function NewTasks({ params }: pageProps) {
               <select
                 id="priority"
                 className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-100"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value as Priority)}
+                value={task?.priority}
+                onChange={(e) => setTask({...task, priority: e.target.value as Priority })}
                 disabled={loading}
               >
                 <option value={Priority.Low}>Low</option>
