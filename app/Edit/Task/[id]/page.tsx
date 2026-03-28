@@ -15,7 +15,7 @@ const getDefaultData = async (params: pageProps) => {
     }
   };
 
-const NewTasks = dynamic(() => import("@/app/newTask/page"));
+const NewTasks = dynamic(() => import("@/app/NewTask/page"));
 
 export default async function EditTaskPage(params: pageProps) {
   const editData = await getDefaultData(params);
