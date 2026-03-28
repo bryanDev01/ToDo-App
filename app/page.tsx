@@ -28,7 +28,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{qu
         </div>
       </section>
     
-      <TaskList tasks={tasks}/>
+      {tasks ? <TaskList tasks={tasks}/> : <h1 className=" text-2xl text-center text font-semibold py-6 text-red-500">We're sorry but it seems that something unespected happened... Please check your internet connection</h1>}
 
       {/* Floating Action Button */}
       <Link
